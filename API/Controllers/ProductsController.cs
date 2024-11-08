@@ -1,3 +1,4 @@
+using API.RequestHelpers;
 using Core.Entities;
 using Core.Interfaces;
 using Core.Specification;
@@ -10,13 +11,13 @@ namespace API.Controllers
     {
          
          [HttpGet]
-        public async Task<ActionResult<IReadOnlyList<Product>>> GetProducts
-        (string? brand, string? type, string? sort)
+        public async Task<ActionResult<IReadOnlyList<Product>>> GetProducts(
+        [FromQuery] ProductSpecParams specParams)
         {
-          var spec = new ProductFilterSortPaginationSpecification(brand, type, sort);
-          var product = await repo.ListSpecAsync(spec);
-          // return Ok(await productRepository.GetProductsAsync(brand, type, sort));
-           return Ok(product);
+          var spec = new ProductFilterSortPaginationSpecification(specParams);
+
+            return await CreatePagedResult(repo, spec, specParams.PageIndex, specParams.PageSize);
+          
 
         }
 

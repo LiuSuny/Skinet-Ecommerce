@@ -12,13 +12,28 @@ namespace Core.Specification
     {
         protected BaseSpecification() : this(null){}
         //Passing in the expression instances
-        public Expression<Func<T, bool>>? SupportWhereExpressionCriteriaFiltering => criteria;
+        public Expression<Func<T, bool>>? Criteria => criteria;
 
         public Expression<Func<T, object>>? OrderBy {get; private set;}
 
         public Expression<Func<T, object>>? OrderByDescending {get; private set;}
 
         public bool IsDistinct {get; private set;}
+
+        public int Take {get; private set;}
+
+        public int Skip {get; private set;}
+
+        public bool IsPagingEnable {get; private set;}
+
+        public IQueryable<T> ApplyCriteria(IQueryable<T> query)
+        {
+            if(Criteria !=null)
+            {
+                query = query.Where(Criteria);
+            }
+            return query;
+        }
 
         //in order to get hold of this method from derived class
         protected void AddOrderBy(Expression<Func<T, object>>? orderByExpression)
@@ -35,6 +50,14 @@ namespace Core.Specification
         {
             IsDistinct = true;
         }
+
+        protected void ApplyPaging(int skip, int take)
+        {
+            Skip = skip;
+            Take = take;
+            IsPagingEnable = true;
+        }
+
     }
 
 

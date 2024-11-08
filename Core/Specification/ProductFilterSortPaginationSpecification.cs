@@ -1,16 +1,19 @@
+using System.Security.Cryptography.X509Certificates;
 using Core.Entities;
 
 namespace Core.Specification
 {
     public class ProductFilterSortPaginationSpecification : BaseSpecification<Product>
     {
-        public ProductFilterSortPaginationSpecification(string? brand, 
-        string? type, string? sort)
-        :base
-        ( x =>(string.IsNullOrWhiteSpace(brand) || x.Brand == brand)
-        && string.IsNullOrWhiteSpace(type) || x.Type == type)
+        public ProductFilterSortPaginationSpecification(ProductSpecParams specParams)
+        :base( x =>
+        (string.IsNullOrEmpty(specParams.Search) || x.Name.ToLower().Contains(specParams.Search)) &&
+         (specParams.Brands.Count == 0 || specParams.Brands.Contains(x.Brand)) &&
+        (specParams.Types.Count == 0 || specParams.Types.Contains(x.Type)))
         {
-            switch (sort)
+            ApplyPaging(specParams.PageSize * (specParams.PageIndex - 1), specParams.PageSize);
+
+            switch (specParams.Sorts)
             {
               case "priceAsc" : 
               AddOrderBy(x => x.Price);

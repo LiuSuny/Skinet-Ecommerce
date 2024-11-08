@@ -20,6 +20,13 @@ namespace Infrastructure.Data
             dbSet.Add(entity);
         }
 
+        public async Task<int> CountAsync(ISpecification<T> spec)
+        {
+            var query = _context.Set<T>().AsQueryable();
+            query = spec.ApplyCriteria(query);
+            return await query.CountAsync();
+        }
+
         public bool Exist(int id)
         {
             //return _context.Set<T>().Any(x => x.Id == id);

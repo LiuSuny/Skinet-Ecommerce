@@ -17,9 +17,9 @@ namespace Infrastructure.Data
         public static IQueryable<T> GetQuery(IQueryable<T> query, 
         ISpecification<T> spec)
         {
-            if(spec.SupportWhereExpressionCriteriaFiltering !=null)
+            if(spec.Criteria !=null)
             {
-                query = query.Where(spec.SupportWhereExpressionCriteriaFiltering); // x => x.Brand ==brand
+                query = query.Where(spec.Criteria); // x => x.Brand ==brand
             }
 
             if(spec.OrderBy !=null)
@@ -37,6 +37,11 @@ namespace Infrastructure.Data
                 query = query.Distinct();
             }
 
+            if (spec.IsPagingEnable)
+            {
+                query = query.Skip(spec.Skip).Take(spec.Take);
+            }
+
             return query;
         }
 
@@ -45,9 +50,9 @@ namespace Infrastructure.Data
         public static IQueryable<TResult> GetQuery<Tspec, TResult>(IQueryable<T> query, 
         ISpecification<T, TResult> spec)
         {
-            if(spec.SupportWhereExpressionCriteriaFiltering !=null)
+            if(spec.Criteria !=null)
             {
-                query = query.Where(spec.SupportWhereExpressionCriteriaFiltering); // x => x.Brand ==brand
+                query = query.Where(spec.Criteria); // x => x.Brand ==brand
             }
 
             if(spec.OrderBy !=null)
@@ -71,7 +76,11 @@ namespace Infrastructure.Data
             {
                 selectQuery = selectQuery?.Distinct();
             }
-            
+
+            if (spec.IsPagingEnable)
+            {
+                selectQuery = selectQuery?.Skip(spec.Skip).Take(spec.Take);
+            }
             //?? null colision in this case query.Cast<TResult>() is going to executed if slectquery is null
             return selectQuery ?? query.Cast<TResult>();
         }
