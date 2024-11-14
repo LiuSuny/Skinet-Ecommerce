@@ -5,11 +5,14 @@
                max-w-screen-2xl 
                mx-auto">
      <!-- site log image template of our website -->
-       <img src="/images/logo.png" alt="app logo" class="max-h-16">
+       <img routerLink="/" src="/images/logo.png" alt="app logo" class="max-h-16">
      <!-- navbar template of our website -->
-    <nav class="flex gap-3 my-2 uppercase text-xl">
-       <a>Home</a>
-       <a>Shop</a>
+    <nav class="flex gap-3 my-2 uppercase text-2xl">
+       <a routerLink="/" 
+       routerLinkActive="active"
+       [routerLinkActiveOptions]="{exact: true}"
+       >Home</a>
+       <a routerLink="/shop" routerLinkActive="active">Shop</a>
        <a>Contact</a>
     </nav>
     <!-- register and shopping nav heading template of our website -->

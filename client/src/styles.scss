@@ -30,3 +30,8 @@ $customTheme: mat.define-theme();
 button.match-input-height {
     height: var(--mat-form-field-container-height) !important;
 }
+
+//overriding angular material button style on product quntity
+.mdc-notched-outline__notch{
+    border-right-style: none !important;
+}

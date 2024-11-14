@@ -43,6 +43,11 @@ export class ShopService {
     //get all products
     return this.http.get<Pagination<Product>>(this.baseUrl + 'products', {params});
   }
+  
+  //get a specific product by id
+  getProductById(id: number){
+    return this.http.get<Product>(this.baseUrl + 'products/' + id);
+  }
 
   //Get product by brand method
   getProductByBrands(){
