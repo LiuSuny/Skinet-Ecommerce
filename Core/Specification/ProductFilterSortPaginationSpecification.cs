@@ -13,7 +13,7 @@ namespace Core.Specification
         {
             ApplyPaging(specParams.PageSize * (specParams.PageIndex - 1), specParams.PageSize);
 
-            switch (specParams.Sorts)
+            switch (specParams.Sort)
             {
               case "priceAsc" : 
               AddOrderBy(x => x.Price);

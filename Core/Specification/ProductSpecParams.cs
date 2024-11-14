@@ -32,7 +32,7 @@ namespace Core.Specification
             }             
         }
 
-        public string? Sorts { get; set; }
+        public string? Sort { get; set; }
 
         //Search products
         private string?  _search;
