@@ -35,3 +35,18 @@ button.match-input-height {
 .mdc-notched-outline__notch{
     border-right-style: none !important;
 }
+
+//override the snarkbar material default style
+.mat-mdc-snack-bar-container.snark-error {
+    --mdc-snackbar-container-color: #ff3333;
+    --mdc-snack-bar-button-color: #fff;
+    --mdc-snackbar-supporting-text-color: #fff ;
+     border-radius: 8px !important; 
+  }
+
+  .mat-mdc-snack-bar-container.snark-success {
+    --mdc-snackbar-container-color: green;
+    --mdc-snack-bar-button-color: #fff;
+    --mdc-snackbar-supporting-text-color: #fff ;
+    border-radius: 8px !important; /* Change border radius */
+  }
