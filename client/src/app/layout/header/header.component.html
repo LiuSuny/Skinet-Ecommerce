@@ -1,5 +1,5 @@
 <!-- Heading template of our website -->
-<Header class="border-b shadow-md p-3 w-full">
+<Header class="border-b shadow-md p-3 w-full max-h-20 fixed top-0 z-50 bg-white">
    <div class="flex align-middle items-center 
                justify-between 
                max-w-screen-2xl 
@@ -25,3 +25,8 @@
       </div>
    </div>
 </Header>
+
+<!-- loading indcator using mat progress bar -->
+@if(busyService.loading){
+  <mat-progress-bar mode="indeterminate" class="fixed top-20 z-50" ></mat-progress-bar>
+}
