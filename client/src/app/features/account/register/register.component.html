@@ -8,35 +8,19 @@
            </div>
           
             <!-- for first name-->
-            <mat-form-field appearance="outline" class="w-full mb-4">
-                <mat-label> First Name </mat-label>
-                <input formControlName="firstName" matInput type="text" placeholder="Rowland"/>
-               
-                <!-- client side validation-->
-                @if (registerForm.get('firstName')?.hasError('required')) {
-                  <mat-error>First name is required</mat-error>
-                }
-              
-             </mat-form-field>
+           <app-validation-text-re-usable-input label="First name" formControlName="firstName"/>
 
               <!-- for Last name -->
-           <mat-form-field appearance="outline" class="w-full mb-4">
-            <mat-label> Last Name </mat-label>
-            <input formControlName="lastName" matInput type="text" placeholder="John"/>
-         </mat-form-field>
+           <app-validation-text-re-usable-input label="Last name" formControlName="lastName"/>
+                
 
            <!-- for email address -->
-           <mat-form-field appearance="outline" class="w-full mb-4">
-              <mat-label>Email Address</mat-label>
-              <input formControlName="email" matInput type="email" placeholder="rowland@example.com"/>
-           </mat-form-field>
-  
-           <!-- for email password -->
-           <mat-form-field appearance="outline" class="w-full mb-4">
-              <mat-label>Password</mat-label>
-              <input formControlName="password" matInput type="password" placeholder="Password"/>
-           </mat-form-field>
-  
+           <app-validation-text-re-usable-input label="Email Address" formControlName="email"/>
+         
+           
+            <!-- for email address -->
+            <app-validation-text-re-usable-input label="Password" formControlName="password" type="password"/>
+         
            <!-- validation error check from server side -->
            @if (validationError) {
             <div class="mb-3 p-4 bg-red-100 text-red-600">
@@ -56,8 +40,8 @@
       </form>
   </mat-card>
 
-  <mat-card class="max-w-lg mx-auto mt-3 p-2">
+  <!-- <mat-card class="max-w-lg mx-auto mt-3 p-2">
      <pre> Form values: {{registerForm.value | json}}</pre>
      <pre>Form status: {{registerForm.status}}</pre>
   </mat-card>
-  
+   -->
