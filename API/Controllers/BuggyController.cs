@@ -1,4 +1,6 @@
+using System.Security.Claims;
 using API.DTOs;
+using API.Extensions;
 using API.RequestHelpers;
 using Core.Entities;
 using Core.Interfaces;
@@ -47,6 +49,17 @@ namespace API.Controllers
         public IActionResult GetValidationErrol(CreateProductDto product)
         {
             return Ok();
+        }
+
+        [Authorize]
+        [HttpGet("secret")]
+        public ActionResult GetSecret()
+        {
+            var name = User.GetUserEmail();
+            var id = User.GetUserId();
+
+            return Ok("Hello " + name + "with an id of " + id);
+
         }
 
     }
