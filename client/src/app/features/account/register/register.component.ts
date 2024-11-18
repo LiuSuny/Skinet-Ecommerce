@@ -8,6 +8,7 @@ import { AccountService } from '../../../core/services/account.service';
 import { Router } from '@angular/router';
 import { SnarkbarService } from '../../../core/services/snarkbar.service';
 import { JsonPipe } from '@angular/common';
+import { ValidationTextReUsableInputComponent } from "../../../shared/components/validation-text-re-usable-input/validation-text-re-usable-input.component";
 
 @Component({
   selector: 'app-register',
@@ -20,8 +21,9 @@ import { JsonPipe } from '@angular/common';
     MatLabel,
     MatButton,
     JsonPipe,
-    MatError 
-  ],
+    MatError,
+    ValidationTextReUsableInputComponent
+],
   templateUrl: './register.component.html',
   styleUrl: './register.component.scss'
 })
