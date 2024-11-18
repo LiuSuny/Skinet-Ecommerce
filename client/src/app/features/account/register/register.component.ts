@@ -16,13 +16,7 @@ import { ValidationTextReUsableInputComponent } from "../../../shared/components
   imports: [
     ReactiveFormsModule,
     MatCard,
-    MatFormField,
-    MatInput,
-    MatLabel,
-    MatButton,
-    JsonPipe,
-    MatError,
-    ValidationTextReUsableInputComponent
+    ValidationTextReUsableInputComponent 
 ],
   templateUrl: './register.component.html',
   styleUrl: './register.component.scss'

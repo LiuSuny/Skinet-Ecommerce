@@ -70,14 +70,12 @@ namespace API.Controllers
 
     
     //this endpoint just tell us if users is authenticated
-       [HttpGet]
-        public ActionResult GetAuthState()
-        {
-                 return Ok( new {
-                    IsAuthenticated = User.Identity?.IsAuthenticated ?? false
-                 });
-        }
-
+       [HttpGet("auth-status")]
+       public ActionResult GetAuthState()
+    {
+        return Ok(new { IsAuthenticated = User.Identity?.IsAuthenticated ?? false });
+    }
+    
          [Authorize]
          [HttpPost("address")]
         public async Task<ActionResult<Address>> CreateOrUpdateUserAddress(AddressDto addressDto)

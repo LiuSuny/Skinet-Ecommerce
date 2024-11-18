@@ -5,7 +5,7 @@ import { MatCard } from '@angular/material/card';
 import { MatFormField, MatLabel } from '@angular/material/form-field';
 import { MatInput } from '@angular/material/input';
 import { AccountService } from '../../../core/services/account.service';
-import { Router } from '@angular/router';
+import { ActivatedRoute, Router } from '@angular/router';
 
 @Component({
   selector: 'app-login',
@@ -27,6 +27,14 @@ export class LoginComponent {
   private fb = inject(FormBuilder);
   private accountService = inject(AccountService);
   private router = inject(Router); //redirecting user to another page after login
+  private activatedRoute = inject(ActivatedRoute); //use after using auth guards
+  
+  returnUrl = '/shop';
+
+  constructor() {
+    const url = this.activatedRoute.snapshot.queryParams['returnUrl'];
+    if (url) this.returnUrl = url;
+  }
 
   //Note: since we r using reactiveform we initialize the logic inside our component.ts
 
@@ -40,7 +48,7 @@ export class LoginComponent {
     next: () => {
       //once we successfully login we going to get user info
       this.accountService.getUserInfo().subscribe();
-      this.router.navigateByUrl('/shop');
+      this.router.navigateByUrl(this.returnUrl);
     }
    })
   }
