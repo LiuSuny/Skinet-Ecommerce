@@ -26,6 +26,22 @@ namespace Infrastructure.Data
 
             }
 
+             if(!context.DeliveryMethods.Any())
+            {
+                var deliveryData = await System.IO.File.
+                ReadAllTextAsync("../Infrastructure/Data/SeedData/delivery.json");
+                
+                //var product = new JsonSerializerOptions{ PropertyNameCaseInsensitive = true };
+
+                var deivery = JsonSerializer.Deserialize<List<DeliveryMethod>>(deliveryData); //deserialize our userData into an object
+                if(deivery == null) return;
+
+                context.DeliveryMethods.AddRange(deivery);
+                await context.SaveChangesAsync();
+
+            }
+
+
 
         }
     }

@@ -22,6 +22,8 @@ builder.Services.AddDbContext<StoreContext>(options =>
 builder.Services.AddScoped<IProductRepository, ProductRepository>();
 //Adding genric service to our project
 builder.Services.AddScoped(typeof(IGenericRepository<>), typeof(GenericRepository<>));
+//injecting stripe config service
+builder.Services.AddScoped<IPaymentService, PaymentService>();
 
 builder.Services.AddCors(); //config our angular
 //configuring redis to our application to store data etc
@@ -39,6 +41,7 @@ builder.Services.AddSingleton<ICartService, CartService>(); //using singleton he
 builder.Services.AddAuthorization();
 builder.Services.AddIdentityApiEndpoints<AppUser>()
                .AddEntityFrameworkStores<StoreContext>();
+
 
 
 var app = builder.Build();
