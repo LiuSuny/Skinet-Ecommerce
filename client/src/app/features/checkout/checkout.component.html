@@ -2,11 +2,31 @@
 <div class=" flex mt-32 gap-6">
     <div class="w-3/4">
        <!-- angular stepper module to style our checkout -->
-         <mat-stepper #stepper class="bg-white border border-gray-200 shadow-sm">
+         <mat-stepper 
+               (selectionChange)="onStepChange($event)"
+               #stepper 
+              class="bg-white border border-gray-200 shadow-sm">
      
           <!-- mat step to step into address -->
           <mat-step label="Address">
-            Address Form
+            <!-- stripe would automatcally created stepper address for us with intialization at compoenet.ts-->
+            <div id="address-element"> </div>
+             
+       <!-- saving address after clicking on checkbox -->
+            <div class="flex justify-end mt-1">
+                <mat-checkbox [checked]="saveAddress"
+                              (change)="onSaveAddressCheckBoxChange($event)" 
+                class="">
+                  Save as default address
+                </mat-checkbox>
+            </div>
+
+            <!-- mat button for continue or continue to next stepper -->
+            <div class="flex justify-between mt-6">
+               <button routerLink="/shop" mat-stroked-button>Continue shopping</button>
+               <button matStepperNext mat-flat-button>Next</button>
+
+            </div>
           </mat-step>
 
        <!-- mat step to step into Shipping -->

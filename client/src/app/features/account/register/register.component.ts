@@ -16,7 +16,9 @@ import { ValidationTextReUsableInputComponent } from "../../../shared/components
   imports: [
     ReactiveFormsModule,
     MatCard,
-    ValidationTextReUsableInputComponent 
+    MatButton, 
+    ValidationTextReUsableInputComponent
+   
 ],
   templateUrl: './register.component.html',
   styleUrl: './register.component.scss'
@@ -27,7 +29,7 @@ export class RegisterComponent {
   private accountService = inject(AccountService);
   private router = inject(Router);
   private snackService = inject(SnarkbarService);
-  validationError?: string[]
+  validationErrors?: string[]
 
 
 
@@ -47,7 +49,7 @@ export class RegisterComponent {
       this.snackService.success('Registeration successful - you can now login')
       this.router.navigateByUrl('/account/login');
     },
-    error: errors => this.validationError = errors
+    error: errors => this.validationErrors = errors
    })
   }
 }

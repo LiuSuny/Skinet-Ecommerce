@@ -1,45 +1,26 @@
 <mat-card class="max-w-lg mx-auto mt-32 p-8 bg-white">
-    <!-- b/c we are using reatcive form we use formgroup and 
-    passing the method we created which is loginForm -->
-      <form [formGroup]="registerForm" 
-            (ngSubmit)="onSubmit()">
-           <div class="text-center mb-6">
-              <h1 class="text-3xl font-semibold text-primary">Register</h1>
+   <form [formGroup]="registerForm" (ngSubmit)="onSubmit()">
+       <div class="text-center mb-6">
+           <h1 class="text-3xl font-semibold text-primary">Register</h1>
+       </div>
+       <app-validation-text-re-usable-input label="First name" formControlName="firstName" />
+       <app-validation-text-re-usable-input label="Last name" formControlName="lastName" />
+       <app-validation-text-re-usable-input label="Email address" formControlName="email" />
+       <app-validation-text-re-usable-input label="Password" formControlName="password" type="password" />
+
+       @if (validationErrors) {
+           <div class="mb-3 p-4 bg-red-100 text-red-600">
+               <ul class="list-disc px-3">
+                   @for (error of validationErrors; track $index) {
+                       <li>{{error}}</li>
+                   }
+               </ul>
            </div>
-          
-            <!-- for first name-->
-           <app-validation-text-re-usable-input label="First name" formControlName="firstName"/>
+       }
 
-              <!-- for Last name -->
-           <app-validation-text-re-usable-input label="Last name" formControlName="lastName"/>
-                
-           <!-- for email address -->
-           <app-validation-text-re-usable-input label="Email Address" formControlName="email"/>
-           
-            <!-- for email address -->
-            <app-validation-text-re-usable-input label="Password" formControlName="password" type="password"/>
-         
-           <!-- validation error check from server side -->
-           @if (validationError) {
-            <div class="mb-3 p-4 bg-red-100 text-red-600">
-                <ul class="list-disc p-3">
-                  @for (error of validationError; track $index) {
-                     <li>{{error}}</li>
-                  }
-                </ul>
-            </div>
-           }
-           
-           <button 
-                  [disabled]="registerForm.invalid"
-                  mat-flat-button
-                  type="submit" 
-                  class="w-full py-2" >Register</button>
-      </form>
-  </mat-card>
-
-  <!-- <mat-card class="max-w-lg mx-auto mt-3 p-2">
-     <pre> Form values: {{registerForm.value | json}}</pre>
-     <pre>Form status: {{registerForm.status}}</pre>
-  </mat-card>
-   -->
+       <button
+          [disabled]="registerForm.invalid" 
+           type="submit" 
+           class="w-full py-2 text-primary" mat-flat-button>Register</button>
+   </form>
+</mat-card>
