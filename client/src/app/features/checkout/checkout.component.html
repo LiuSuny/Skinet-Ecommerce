@@ -1,3 +1,33 @@
-<div class="mt-5">
-    <h1 class="text-2xl">Only authorize users should be able see this!</h1>
+
+<div class=" flex mt-32 gap-6">
+    <div class="w-3/4">
+       <!-- angular stepper module to style our checkout -->
+         <mat-stepper #stepper class="bg-white border border-gray-200 shadow-sm">
+     
+          <!-- mat step to step into address -->
+          <mat-step label="Address">
+            Address Form
+          </mat-step>
+
+       <!-- mat step to step into Shipping -->
+          <mat-step label="Shipping">
+            Delivery Form
+          </mat-step>
+
+       <!-- mat step to step into Payment -->
+          <mat-step label="Payment">
+            Payment Form
+          </mat-step>
+
+       <!-- mat step to step into Confirmation -->
+          <mat-step label="Confirmation">
+            Review Form
+          </mat-step> 
+
+         </mat-stepper>
+    </div>
+   <!-- this will take one quater of the page -->
+    <div class="w-1/4">
+      <app-order-summary></app-order-summary>
+    </div>
 </div>

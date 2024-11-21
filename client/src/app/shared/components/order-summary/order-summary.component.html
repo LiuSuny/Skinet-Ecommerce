@@ -26,11 +26,14 @@
      </dl>
      </div>
 
-     <!-- button summery  -->
-      <div class="flex flex-col gap-2">
-         <button routerLink="/checkout" mat-flat-button>Checkout</button>
-         <button routerLink="/shop" mat-button>Continue Shopping</button>
-      </div>
+     <!-- button summery !!!!!location.path() !== '/checkout' get hidden once inside the check path -->
+      @if (location.path() !== '/checkout') {
+        
+         <div class="flex flex-col gap-2">
+            <button routerLink="/checkout" mat-flat-button>Checkout</button>
+            <button routerLink="/shop" mat-button>Continue Shopping</button>
+         </div>
+      }
   </div>
 
      <!-- voucher  -->

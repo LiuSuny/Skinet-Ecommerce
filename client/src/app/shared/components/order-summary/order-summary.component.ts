@@ -5,7 +5,7 @@ import { MatIcon } from '@angular/material/icon';
 import { MatInput } from '@angular/material/input';
 import { RouterLink } from '@angular/router';
 import { CartService } from '../../../core/services/cart.service';
-import { CurrencyPipe } from '@angular/common';
+import { CurrencyPipe, Location } from '@angular/common';
 
 @Component({
   selector: 'app-order-summary',
@@ -23,4 +23,7 @@ import { CurrencyPipe } from '@angular/common';
 })
 export class OrderSummaryComponent {
  cartService = inject(CartService);
+ //this allow to decide which location we r on and decide if we want to deplay a button 
+ //in this case our checkout button if we already in it
+ location = inject(Location); 
 }
