@@ -1,5 +1,5 @@
 import { inject, Injectable } from '@angular/core';
-import {loadStripe, Stripe, StripeAddressElement, StripeAddressElementOptions, StripeElements, StripePaymentElement} from '@stripe/stripe-js';
+import {ConfirmationToken, loadStripe, Stripe, StripeAddressElement, StripeAddressElementOptions, StripeElements, StripePaymentElement} from '@stripe/stripe-js';
 import { environment } from '../../../environments/environment';
 import { HttpClient } from '@angular/common/http';
 import { CartService } from './cart.service';
@@ -109,6 +109,48 @@ export class StripeService {
 
     }
     return this.addressElements;
+  }
+
+  //generate a confirm token from stripe
+  async createConfirmationTokens(){
+      const stripe = await this.getStripeInstance(); //get hold of stripe
+      const elements = await this.initializeElement(); //get access to element
+
+      //next we need to submit th element
+        const result = await elements.submit();
+
+      if(result.error) throw new Error(result.error?.message);
+      
+      //then create the token
+      if(stripe){
+        return await stripe.createConfirmationToken({elements})
+      }else{
+        throw new Error('stripe not available');
+      }
+         
+  }
+
+  //this method confirm the payment
+  async confirmPayments(confirmationTokens: ConfirmationToken){
+    const stripe = await this.getStripeInstance(); //get hold of stripe
+    const elements = await this.initializeElement(); //get access to element
+     //next we need to submit th element
+     const result = await elements.submit();
+
+     if(result.error) throw new Error(result.error?.message);
+
+     const clientSecret = this.cartService.cart()?.clientSecret;
+     if(stripe && clientSecret){
+       return await stripe.confirmPayment({
+        clientSecret: clientSecret,
+        confirmParams: {
+           confirmation_token: confirmationTokens.id
+        },
+         redirect: 'if_required'
+       })
+     }else{
+      throw new Error('stripe is not available');
+    }
   }
 
   //method to create or update payment intent
