@@ -41,12 +41,22 @@
 
        <!-- mat step to step into Payment -->
           <mat-step label="Payment">
-            Payment Form
+           <div id="payment-element"></div>
+           <div class="flex justify-between mt-6">
+            <button matStepperPrevious mat-stroked-button>Back</button>
+            <button matStepperNext mat-flat-button>Next</button>
+
+         </div>
           </mat-step>
 
        <!-- mat step to step into Confirmation -->
           <mat-step label="Confirmation">
-            Review Form
+           <app-checkout-review></app-checkout-review>
+
+           <div class="flex justify-between mt-6">
+            <button matStepperPrevious mat-stroked-button>Back</button>
+            <button mat-flat-button>Pay {{cartService.totals()?.total| currency}}</button>
+         </div>
           </mat-step> 
 
          </mat-stepper>

@@ -4,7 +4,7 @@ import {MatStepperModule} from '@angular/material/stepper';
 import { MatButton } from '@angular/material/button';
 import { RouterLink } from '@angular/router';
 import { StripeService } from '../../core/services/stripe.service';
-import { StripeAddressElement } from '@stripe/stripe-js';
+import { StripeAddressElement, StripePaymentElement } from '@stripe/stripe-js';
 import { SnarkbarService } from '../../core/services/snarkbar.service';
 import {MatCheckboxChange, MatCheckboxModule} from '@angular/material/checkbox';
 import { StepperSelectionEvent } from '@angular/cdk/stepper';
@@ -12,6 +12,9 @@ import { Address } from '../../shared/models/user';
 import { firstValueFrom } from 'rxjs';
 import { AccountService } from '../../core/services/account.service';
 import { CheckoutDeliveryComponent } from "./checkout-delivery/checkout-delivery.component";
+import { CheckoutReviewComponent } from "./checkout-review/checkout-review.component";
+import { CartService } from '../../core/services/cart.service';
+import { CurrencyPipe } from '@angular/common';
 
 @Component({
   selector: 'app-checkout',
@@ -22,7 +25,9 @@ import { CheckoutDeliveryComponent } from "./checkout-delivery/checkout-delivery
     MatButton,
     RouterLink,
     MatCheckboxModule,
-    CheckoutDeliveryComponent
+    CheckoutDeliveryComponent,
+    CheckoutReviewComponent,
+    CurrencyPipe  
 ],
   templateUrl: './checkout.component.html',
   styleUrl: './checkout.component.scss'
@@ -31,8 +36,11 @@ export class CheckoutComponent implements OnInit, OnDestroy{
   
   private stripeService = inject(StripeService);
   addressElement?: StripeAddressElement;
+  paymentElement?: StripePaymentElement;
   private snackService = inject(SnarkbarService);
   private accountService = inject(AccountService);
+  cartService = inject(CartService);
+
 
    saveAddress = false
 
@@ -42,6 +50,11 @@ export class CheckoutComponent implements OnInit, OnDestroy{
       this.addressElement = await this.stripeService.CreateAddressElement();
       //if we have list of address element then we need to mount it - id pass at the template #address-element
       this.addressElement.mount('#address-element');
+
+      //this responsible for strip payment
+      this.paymentElement = await this.stripeService.createPaymentElement();
+      //if we have list of address element then we need to mount it - id pass at the template #address-element
+      this.paymentElement.mount('#payment-element');
     }
     catch(error: any) {
       this.snackService.error(error.messsage)
