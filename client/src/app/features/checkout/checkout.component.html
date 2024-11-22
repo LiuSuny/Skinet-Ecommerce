@@ -1,14 +1,15 @@
 
 <div class=" flex mt-32 gap-6">
     <div class="w-3/4">
-       <!-- angular stepper module to style our checkout -->
+       <!-- angular stepper module to style our checkout.. [linear]="true" this prevent the user from moving forward a step -->
          <mat-stepper 
                (selectionChange)="onStepChange($event)"
+               [linear]="true"
                #stepper 
               class="bg-white border border-gray-200 shadow-sm">
      
-          <!-- mat step to step into address -->
-          <mat-step label="Address">
+          <!-- mat step to step into address giving user a completed status -->
+          <mat-step label="Address" [completed]="completionStatus().address">
             <!-- stripe would automatcally created stepper address for us with intialization at compoenet.ts-->
             <div id="address-element"> </div>
              
@@ -23,28 +24,35 @@
 
             <!-- mat button for continue or continue to next stepper -->
             <div class="flex justify-between mt-6">
-               <button routerLink="/shop" mat-stroked-button>Continue shopping</button>
-               <button matStepperNext mat-flat-button>Next</button>
+               <button class="z-0" routerLink="/shop" mat-stroked-button>Continue shopping</button>
+               <button [disabled]="!completionStatus().address" 
+                       class="z-0" 
+                       matStepperNext 
+                       mat-flat-button>Next</button>
 
             </div>
           </mat-step>
 
        <!-- mat step to step into Shipping -->
-          <mat-step label="Shipping">
-          <app-checkout-delivery></app-checkout-delivery>
+          <mat-step label="Shipping" [completed]="completionStatus().delivery">
+          <app-checkout-delivery (deliveryComplete)="handleDeliveryChange($event)"></app-checkout-delivery>
           <div class="flex justify-between mt-6">
             <button matStepperPrevious mat-stroked-button>Back</button>
-            <button matStepperNext mat-flat-button>Next</button>
+            <button [disabled]="!completionStatus().delivery"
+                    matStepperNext 
+                    mat-flat-button>Next</button>
 
          </div>
           </mat-step>
 
        <!-- mat step to step into Payment -->
-          <mat-step label="Payment">
+          <mat-step label="Payment" [completed]="completionStatus().card">
            <div id="payment-element"></div>
            <div class="flex justify-between mt-6">
             <button matStepperPrevious mat-stroked-button>Back</button>
-            <button matStepperNext mat-flat-button>Next</button>
+            <button [disabled]="!completionStatus().card"
+                    matStepperNext
+                    mat-flat-button>Next</button>
 
          </div>
           </mat-step>
@@ -60,6 +68,7 @@
           </mat-step> 
 
          </mat-stepper>
+         <!-- <pre>{{completionStatus() | json}}</pre> -->
     </div>
    <!-- this will take one quater of the page -->
     <div class="w-1/4">
