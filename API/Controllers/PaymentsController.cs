@@ -8,7 +8,7 @@ using Microsoft.AspNetCore.Mvc;
 namespace API.Controllers
 {
     public class PaymentsController(IPaymentService paymentService, 
-        IGenericRepository<DeliveryMethod> deliveryRepo) : BaseApiController
+        IUnitOfWork unitOfWork) : BaseApiController
     {
 
         [Authorize]
@@ -28,7 +28,7 @@ namespace API.Controllers
         GetDeliveryMethod()
         {
 
-            return Ok(await deliveryRepo.ListAllAsync());
+            return Ok(await unitOfWork.Repository<DeliveryMethod>().ListAllAsync());
 
         }
     }

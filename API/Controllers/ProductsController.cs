@@ -7,7 +7,7 @@ using Microsoft.AspNetCore.Mvc;
 namespace API.Controllers
 {
 
-    public class ProductsController(IGenericRepository<Product> repo) : BaseApiController
+    public class ProductsController(IUnitOfWork unitOfWork) : BaseApiController
     {
          
          [HttpGet]
@@ -16,7 +16,7 @@ namespace API.Controllers
         {
           var spec = new ProductFilterSortPaginationSpecification(specParams);
 
-            return await CreatePagedResult(repo, spec, specParams.PageIndex, specParams.PageSize);
+            return await CreatePagedResult(unitOfWork.Repository<Product>(), spec, specParams.PageIndex, specParams.PageSize);
           
 
         }
@@ -24,7 +24,7 @@ namespace API.Controllers
          [HttpGet("{id:int}")]
         public async Task<ActionResult<Product>> GetProduct(int id)
         {
-          var product = await repo.GetByIdAsync(id);
+          var product = await unitOfWork.Repository<Product>().GetByIdAsync(id);
 
           if(product is null) return NotFound();
           return product;
@@ -35,8 +35,8 @@ namespace API.Controllers
         public async Task<ActionResult<Product>> CreateProduct(Product product)
         {
 
-                repo.Add(product);
-              if(await repo.SaveAllAsync())
+                unitOfWork.Repository<Product>().Add(product);
+              if(await unitOfWork.Complete())
               {
                 return CreatedAtAction("GetProduct", new {id = product.Id}, product);
               }
@@ -50,8 +50,8 @@ namespace API.Controllers
             if(product.Id != id || !ProductExist(id))
              return BadRequest("Cannot update the products");
              
-             repo.Update(product);
-             if(await repo.SaveAllAsync())
+             unitOfWork.Repository<Product>().Update(product);
+             if(await unitOfWork.Complete())
              return NoContent();
               
            return BadRequest("Failed to update products");
@@ -61,13 +61,13 @@ namespace API.Controllers
           [HttpDelete("{id:int}")]
         public async Task<ActionResult> DeleteProduct(int id)
         {
-          var product = await repo.GetByIdAsync(id);
+          var product = await unitOfWork.Repository<Product>().GetByIdAsync(id);
 
           if(product == null) return NotFound();
 
-           repo.Remove(product);
+           unitOfWork.Repository<Product>().Remove(product);
            
-            if(await  repo.SaveAllAsync())
+            if(await  unitOfWork.Complete())
              return NoContent();
               
            return BadRequest("Failed to delete products");
@@ -83,7 +83,7 @@ namespace API.Controllers
           
           var brandSpec = new BrandListSpecification();
 
-          return Ok(await repo.ListSpecAsync(brandSpec));
+          return Ok(await unitOfWork.Repository<Product>().ListSpecAsync(brandSpec));
 
            
         }
@@ -96,13 +96,13 @@ namespace API.Controllers
 
            var brandSpec = new TypeListSpecification();
 
-           return Ok(await repo.ListSpecAsync(brandSpec));
+           return Ok(await unitOfWork.Repository<Product>().ListSpecAsync(brandSpec));
            
         }
       
           private bool ProductExist(int id)
           {
-            return repo.Exist(id);
+            return unitOfWork.Repository<Product>().Exist(id);
           }
           
     }

@@ -4,6 +4,7 @@ using System.Linq;
 using System.Threading.Tasks;
 using Core.Entities;
 using Core.Interfaces;
+using Microsoft.EntityFrameworkCore;
 
 namespace Infrastructure.Data
 {
@@ -42,8 +43,19 @@ namespace Infrastructure.Data
                 query = query.Skip(spec.Skip).Take(spec.Take);
             }
 
+            //aggregate eagar loading to use include 
+            query = spec.Includes.Aggregate(query, (currentValue, include)
+                => currentValue.Include(include));
+
+            query = spec.ThenIncludeString.Aggregate(query, (currentValue, include)
+                  => currentValue.Include(include));
+
+
+
             return query;
         }
+
+
 
         //actual query that is goin to go to the db and because 
         //this is returning a list of string hence we need this method that return Tresult

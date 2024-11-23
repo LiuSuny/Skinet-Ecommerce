@@ -73,11 +73,11 @@ namespace Infrastructure.Data
 
         }
 
-        public async Task<bool> SaveAllAsync()
-        {
-            return await _context.SaveChangesAsync() > 0;
-           //return await dbSet.SaveChangesAsync() > 0
-        }
+        // public async Task<bool> SaveAllAsync()
+        // {
+        //     return await _context.SaveChangesAsync() > 0;
+        //    //return await dbSet.SaveChangesAsync() > 0
+        // }
 
         public void Update(T entity)
         {

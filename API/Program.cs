@@ -24,6 +24,8 @@ builder.Services.AddScoped<IProductRepository, ProductRepository>();
 builder.Services.AddScoped(typeof(IGenericRepository<>), typeof(GenericRepository<>));
 //injecting stripe config service
 builder.Services.AddScoped<IPaymentService, PaymentService>();
+builder.Services.AddScoped<IUnitOfWork, UnitOfWork>();
+
 
 builder.Services.AddCors(); //config our angular
 //configuring redis to our application to store data etc

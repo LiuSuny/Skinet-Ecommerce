@@ -13,6 +13,8 @@ namespace Core.Interfaces
         Expression<Func<T, bool>>? Criteria{get;}
         Expression<Func<T, object>>? OrderBy{get;}
         Expression<Func<T, object>>? OrderByDescending{get;}
+        List<Expression<Func<T, object>>> Includes { get; } 
+        List<string>? ThenIncludeString { get; } //this is for theniclude eager loading
         bool IsDistinct {get;}
         int Take {get;}
         int Skip  {get;}
