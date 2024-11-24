@@ -1,7 +1,8 @@
 import { inject, Injectable } from '@angular/core';
 import { CartService } from './cart.service';
-import { forkJoin, of } from 'rxjs';
+import { forkJoin, of, tap } from 'rxjs';
 import { AccountService } from './account.service';
+import { SignalrService } from './signalr.service';
 
 @Injectable({
   providedIn: 'root'
@@ -11,6 +12,7 @@ export class InitService {
 
   //cart persitance
   private cartService = inject(CartService);
+  private signalrService = inject(SignalrService);
  
   //current user data persistance
   private accountService = inject(AccountService);
@@ -25,7 +27,11 @@ export class InitService {
     return forkJoin ({
       //return a observable cart
       cart$,
-      user: this.accountService.getUserInfo()
+      user: this.accountService.getUserInfo().pipe(
+        tap(user => {
+          if(user) this.signalrService.createHubConnection();
+        })
+      )
     })
   }
 }

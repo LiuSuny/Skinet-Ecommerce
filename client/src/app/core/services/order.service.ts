@@ -10,6 +10,7 @@ export class OrderService {
 
   baseUrl = environment.apiUrl;
   private http = inject(HttpClient);
+  orderComplete = false //for flaging
   
    createOrder(orderToCreate: OrderToCreate){
       return this.http.post<Order>(this.baseUrl + 'orders', orderToCreate);
