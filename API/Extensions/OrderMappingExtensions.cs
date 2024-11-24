@@ -6,10 +6,9 @@ namespace API.Extensions
 {
     public static class OrderMappingExtensions
     {
-        public static OrderDto? ToDto(this Order? order)
+        public static OrderDto ToDto(this Order order)
         {
-            if (order == null) return null;
-
+            
             return new OrderDto
             {
                 Id = order.Id,
@@ -29,9 +28,9 @@ namespace API.Extensions
         }
 
 
-        public static OrderItemDto? ToDto(this OrderItem? orderItem)
+        public static OrderItemDto ToDto(this OrderItem orderItem)
         {
-            if (orderItem == null) return null;
+          
 
             return new OrderItemDto
             {

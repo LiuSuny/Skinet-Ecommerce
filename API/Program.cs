@@ -1,4 +1,5 @@
 using API.Middleware;
+using API.SignalR;
 using Core.Entities;
 using Core.Interfaces;
 using Infrastructure.Data;
@@ -25,7 +26,7 @@ builder.Services.AddScoped(typeof(IGenericRepository<>), typeof(GenericRepositor
 //injecting stripe config service
 builder.Services.AddScoped<IPaymentService, PaymentService>();
 builder.Services.AddScoped<IUnitOfWork, UnitOfWork>();
-
+builder.Services.AddSignalR();
 
 builder.Services.AddCors(); //config our angular
 //configuring redis to our application to store data etc
@@ -55,10 +56,16 @@ app.UseCors(x => x.AllowAnyHeader()
             .AllowCredentials()
             .AllowAnyMethod()
             .WithOrigins("http://localhost:4200", "https://localhost:4200"));
+  
+app.UseAuthentication();
+app.UseAuthorization();
 
 app.MapControllers();
 
-app.MapGroup("api").MapIdentityApi<AppUser>();
+app.MapGroup("api").MapIdentityApi<AppUser>(); //api/login
+app.MapHub<NotificationHub>("/hub/notifications"); //config SinalR
+
+
 //config our db to seed data automatically without using the dotnet tools            
 
   try

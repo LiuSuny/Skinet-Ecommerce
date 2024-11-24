@@ -1,5 +1,6 @@
 import { Pipe, PipeTransform } from '@angular/core';
 import { ConfirmationToken } from '@stripe/stripe-js';
+import { PaymentSummary } from '../models/order';
 
 @Pipe({
   name: 'payment',
@@ -7,14 +8,20 @@ import { ConfirmationToken } from '@stripe/stripe-js';
 })
 export class PaymentPipe implements PipeTransform {
 
-  transform(value?: ConfirmationToken['payment_method_preview'], ...args: unknown[]): unknown {
-    if(value?.card){
+  transform(value?: ConfirmationToken['payment_method_preview'] | PaymentSummary, ...args: unknown[]): unknown {
+    if(value && 'card' in value){
       //destructuring 
-      const {brand, exp_month, exp_year, last4} = value.card;
+      const {brand, exp_month, exp_year, last4} =
+       (value as ConfirmationToken['payment_method_preview']).card!;
       return `${brand.toUpperCase()}, **** **** **** ${last4}, Exp: ${exp_month}/${exp_year}`;
      
-    } else{
-      return 'Unknown address';
+    } else if(value && 'last4' in value){
+
+      const {brand, expMonth, expYear, last4} = value as PaymentSummary
+     return `${brand.toUpperCase()}, **** **** **** ${last4}, Exp: ${expMonth}/${expYear}`;
+    }
+    else{
+      return 'Unknown payment method';
     }
 
   }

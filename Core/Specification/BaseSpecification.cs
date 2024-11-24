@@ -28,7 +28,7 @@ namespace Core.Specification
 
         public List<Expression<Func<T, object>>> Includes { get; } = [];
 
-        public List<string>? ThenIncludeString { get; } = [];
+        public List<string> ThenIncludeString { get; } = [];
 
         public IQueryable<T> ApplyCriteria(IQueryable<T> query)
         {
