@@ -60,11 +60,14 @@ app.UseCors(x => x.AllowAnyHeader()
 app.UseAuthentication();
 app.UseAuthorization();
 
+app.UseDefaultFiles(); //for production
+app.UseStaticFiles(); //config to handle static file for production
+
 app.MapControllers();
 
 app.MapGroup("api").MapIdentityApi<AppUser>(); //api/login
 app.MapHub<NotificationHub>("/hub/notifications"); //config SinalR
-
+app.MapFallbackToController("Index", "Fallback"); //this handle if any fallback from controller
 
 //config our db to seed data automatically without using the dotnet tools            
 

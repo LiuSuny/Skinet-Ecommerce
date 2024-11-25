@@ -12,6 +12,7 @@ namespace API.Controllers
     /// <summary>
     /// this controller is reponsible to get pull request
     ///from stripe to our backend before sending request to the frontend
+    ///Note: run this command on cmd stripe listen --forward-to https://localhost:5001/api/payment/webhook -e payment_intent.succeeded
     /// </summary>
     /// <param name="unitOfWork"></param>
     /// <param name="logger"></param>
